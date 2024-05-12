@@ -30,8 +30,8 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         //
-        $task = request()->all();
-        Task::create($task);
+        $task = request()->input('name');
+        Task::create(['name'=>$task]);
         return redirect('/');
     }
 
@@ -62,8 +62,10 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(task $task)
+    public function destroy($id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $task->delete();
+        return redirect('/');
     }
 }
