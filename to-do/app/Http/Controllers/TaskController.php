@@ -30,9 +30,13 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         //
-        $task = request()->input('name');
-        Task::create(['name'=>$task]);
-        return redirect('/');
+        try {
+            $task = request()->input('name');
+            Task::create(['name' => $task]);
+            return redirect('/');
+        } catch (\Exception $e) {
+            return response()->json("Failed to create task: " . $e->getMessage(), 500);
+        }
     }
 
     /**
